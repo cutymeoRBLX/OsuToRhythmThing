@@ -99,22 +99,23 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output("return {");
 	append_to_output("	Data = {");
 	append_to_output("--The name of your map.")
-	append_to_output(format("		Name = %s",beatmap.Title))
+	append_to_output(format("		Name = '%s',",beatmap.Title))
 	append_to_output("--The difficulty number of your map.")
-	append_to_output(format("		Difficulty = %d",1))
+	append_to_output(format("		Difficulty = %d,",1))
 	append_to_output("--Your name.")
-	append_to_output(format("		Mapper = %s","MAPPER_NAME_HERE"))
+	append_to_output(format("		Mapper = '%s',","MAPPER_NAME_HERE"))
 	append_to_output("--Your map OD.")
-	append_to_output(format("		OD = %d",5))
+	append_to_output(format("		OD = %d,",5))
 	append_to_output("--Song BPM.")
-	append_to_output(format("		BPM = %d",69420))
+	append_to_output(format("		BPM = %d,",69420))
 	append_to_output("--How HP will changes based on the accuracy.")
 	append_to_output("		HP = { -- HP = 100");
 	append_to_output("			Heal = {");
-	append_to_output(format("				Max = %d",5));
+	append_to_output(format("				Max = %d,",5));
 	append_to_output(format("				Normal = %d",3));
 	append_to_output("			},");
 	append_to_output(format("			Damage = %d", 1));
+	append_to_output("	},");
 	append_to_output("--Your audio assetid should be in the form of \"rbxassetid://...\". Upload audios at \"https://www.roblox.com/develop?View=3\", and copy the uploaded id from the URL.")
 	append_to_output(format("		Song = \"%s\"","rbxassetid://FILL_IN_AUDIO_ASSETID_HERE"));
 	append_to_output("	},");
@@ -127,7 +128,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
 		var type = itr.objectName;
 		var track = hitobj_x_to_track_number(itr.position[0]);
 		var beat = 60 / (beatmap.timingPoints[0] / 1000);
-		append_to_output(format("			{Key=%d,Beat=%d,Length=%d},", track, itr.startTime, itr.duration))
+		append_to_output(format("			{Key=%d,Beat=%d,Length=%d},", track, itr.startTime / 1000 * beat, itr.duration))
 		/*
 		if (type == "slider") {
 			append_to_output(format("hold(%d,%d,%d) ", itr.startTime * beat, track, itr.duration))
@@ -144,7 +145,6 @@ module.export("osu_to_lua", function(osu_file_contents) {
 		append_to_output(format("\t[%d] = { Time = %d; BeatLength = %d; };",i+1, itr.offset, itr.beatLength))
 	}
 	*/
-	append_to_output("	}");
 	append_to_output("}");
 	//append_to_output("return rtv")
 
