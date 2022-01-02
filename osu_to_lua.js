@@ -96,57 +96,57 @@ module.export("osu_to_lua", function(osu_file_contents) {
 		return !(_i_to_removes[i])
 	})
 
-	append_to_output("local rtv = {}");
-	append_to_output("--Your audio assetid should be in the form of \"rbxassetid://...\". Upload audios at \"https://www.roblox.com/develop?View=3\", and copy the uploaded id from the URL.")
-	append_to_output(format("rtv.%s = \"%s\"","AudioAssetId","rbxassetid://FILL_IN_AUDIO_ASSETID_HERE"));
+	append_to_output("return {");
+	append_to_output("	Data = {");
 	append_to_output("--The name of your map.")
-	append_to_output(format("rtv.%s = \"%s\"","AudioFilename",beatmap.Title));
-	append_to_output("--The artist of your map.")
-	append_to_output(format("rtv.%s = \"%s\"","AudioArtist",""));
-	append_to_output("--A description of your map. Will be displayed in the song select list by default.")
-	append_to_output(format("rtv.%s = \"%s\"","AudioDescription",""));
-	append_to_output("--Your cover art assetid should be in the form of \"rbxassetid://...\". Upload images at \https://www.roblox.com/develop?View=13\".")
-	append_to_output("--The uploaded id is the DECAL id, you must use the TEXTURE id here. To get the TEXTURE id, paste the full URL of the DECAL id into the Image property of an ImageLabel. There is a debug ImageLabel under ServerStorage in the mapping test place.")
-	append_to_output(format("rtv.%s = \"%s\"","AudioCoverImageAssetId","rbxassetid://FILL_IN_COVERART_TEXTURE_ASSETID_HERE"));
-	
+	append_to_output(format("		Name = %s",beatmap.Title))
 	append_to_output("--The difficulty number of your map.")
-	append_to_output(format("rtv.%s = %d","AudioDifficulty",1));
-	append_to_output("--The audio time offset of your map in milliseconds. The default value is -75ms.")
-	append_to_output(format("rtv.%s = %d","AudioTimeOffset",-75));
-	append_to_output("--The audio volume of your map. The default value is 0.5.")
-	append_to_output(format("rtv.%s = %d","AudioVolume",0.5));
-	append_to_output("--The speed at which the notes arrive (in milliseconds) for your map. The default value is 1500ms, or 1.5 seconds from spawn to hit.")
-	append_to_output(format("rtv.%s = %d","AudioNotePrebufferTime",1500));
-	append_to_output("--The map modifier. By default in the mapping place, 0 is normal mode and 1 is a hard mode (which is marked as \"Supporters Only\").")
-	append_to_output(format("rtv.%s = %d","AudioMod",0));
-	append_to_output("--The hit SFX group of your map. Valid values are 0 to 5. Add your own hit SFX in ReplicatedStorage.RobeatsGameCore.HitSFXGroup")
-	append_to_output(format("rtv.%s = %d","AudioHitSFXGroup",0));
-
-	append_to_output("rtv.HitObjects = {}")
-	append_to_output("local function note(time,track) rtv.HitObjects[#rtv.HitObjects+1]={Time=time;Type=1;Track=track;} end")
-	append_to_output("local function hold(time,track,duration) rtv.HitObjects[#rtv.HitObjects+1] = {Time=time;Type=2;Track=track;Duration=duration;}  end")
+	append_to_output(format("		Difficulty = %d",1))
+	append_to_output("--Your name.")
+	append_to_output(format("		Mapper = %s","MAPPER_NAME_HERE"))
+	append_to_output("--Your map OD.")
+	append_to_output(format("		OD = %d",5))
+	append_to_output("--Song BPM.")
+	append_to_output(format("		BPM = %d",69420))
+	append_to_output("--How HP will changes based on the accuracy.")
+	append_to_output("		HP = { -- HP = 100");
+	append_to_output("			Heal = {");
+	append_to_output(format("				Max = %d",5));
+	append_to_output(format("				Normal = %d",3));
+	append_to_output("			},");
+	append_to_output(format("			Damage = %d", 1));
+	append_to_output("--Your audio assetid should be in the form of \"rbxassetid://...\". Upload audios at \"https://www.roblox.com/develop?View=3\", and copy the uploaded id from the URL.")
+	append_to_output(format("		Song = \"%s\"","rbxassetid://FILL_IN_AUDIO_ASSETID_HERE"));
+	append_to_output("	},");
+	
+	append_to_output("	Map = {");
 	append_to_output("--")
 
 	for (var i = 0; i < beatmap.hitObjects.length; i++) {
 		var itr = beatmap.hitObjects[i];
 		var type = itr.objectName;
 		var track = hitobj_x_to_track_number(itr.position[0]);
-
+		var beat = 60 / (beatmap.timingPoints[0] / 1000);
+		append_to_output(format("			{Key=%d,Beat=%d,Length=%d},", track, itr.startTime, itr.duration))
+		/*
 		if (type == "slider") {
-			append_to_output(format("hold(%d,%d,%d) ", itr.startTime, track, itr.duration))
+			append_to_output(format("hold(%d,%d,%d) ", itr.startTime * beat, track, itr.duration))
 		} else {
 			append_to_output(format("note(%d,%d) ",itr.startTime, track))
 		}
+		*/
 	}
 	append_to_output("--")
-
+	/*
 	append_to_output("rtv.TimingPoints = {")
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
 		var itr = beatmap.timingPoints[i];
 		append_to_output(format("\t[%d] = { Time = %d; BeatLength = %d; };",i+1, itr.offset, itr.beatLength))
 	}
-	append_to_output("};")
-	append_to_output("return rtv")
+	*/
+	append_to_output("	}");
+	append_to_output("}");
+	//append_to_output("return rtv")
 
 	return rtv_lua
 })
