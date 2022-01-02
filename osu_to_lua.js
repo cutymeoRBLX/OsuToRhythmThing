@@ -121,7 +121,6 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output("	},");
 	
 	append_to_output("	Map = {");
-	append_to_output("--")
 
 	for (var i = 0; i < beatmap.hitObjects.length; i++) {
 		var itr = beatmap.hitObjects[i];
@@ -140,7 +139,6 @@ module.export("osu_to_lua", function(osu_file_contents) {
 		}
 		*/
 	}
-	append_to_output("--")
 	/*
 	append_to_output("rtv.TimingPoints = {")
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
