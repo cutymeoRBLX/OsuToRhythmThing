@@ -105,9 +105,9 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output("--Your name.")
 	append_to_output(format("		Mapper = '%s',","MAPPER_NAME_HERE"))
 	append_to_output("--Your map OD.")
-	append_to_output(format("		OD = %d,",5))
+	append_to_output(format("		OD = %d,",!isNaN(beatmap.OverallDifficulty) ? beatmap.OverallDifficulty : 1))
 	append_to_output("--Song BPM.")
-	append_to_output(format("		BPM = %d,",69420))
+	append_to_output(format("		BPM = %d,",beatmap.bpmMax))
 	append_to_output("--How HP will changes based on the accuracy.")
 	append_to_output("		HP = { -- HP = 100");
 	append_to_output("			Heal = {");
