@@ -95,13 +95,16 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	beatmap.hitObjects = beatmap.hitObjects.filter(function(x,i){
 		return !(_i_to_removes[i])
 	})
-
+	
+	append_to_output("-- Converted with cutymeo's OsuToRhythmThing converter.\n");
 	append_to_output("return {");
 	append_to_output("	Data = {");
 	append_to_output("--The name of your map.")
 	append_to_output(format("		Name = '%s',",beatmap.Title))
 	append_to_output("--The difficulty number of your map.")
 	append_to_output(format("		Difficulty = %d,",1))
+	append_to_output("--The song's artist.")
+	append_to_output(format("		Artist = '%s',",beatmap.Artist))
 	append_to_output("--Your name.")
 	append_to_output(format("		Mapper = '%s',","MAPPER_NAME_HERE"))
 	append_to_output("--Your map OD.")
@@ -118,6 +121,8 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output("	},");
 	append_to_output("--Your audio assetid should be in the form of \"rbxassetid://...\". Upload audios at \"https://www.roblox.com/develop?View=3\", and copy the uploaded id from the URL.")
 	append_to_output(format("		Song = \"%s\"","rbxassetid://FILL_IN_AUDIO_ASSETID_HERE"));
+	append_to_output("--Your cover image assetid should be in the form of \"rbxassetid://...\". Upload images at \"https://www.roblox.com/develop?View=3\", and copy the uploaded id from the URL.")
+	append_to_output(format("		Cover = \"%s\"","rbxassetid://FILL_IN_IMAGE_ASSETID_HERE"));
 	append_to_output("	},");
 	
 	append_to_output("	Map = {");
