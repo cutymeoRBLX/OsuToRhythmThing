@@ -120,9 +120,9 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output(format("			Damage = %d", 1));
 	append_to_output("	},");
 	append_to_output("--Your audio assetid should be in the form of \"rbxassetid://...\". Upload audios at \"https://www.roblox.com/develop?View=3\", and copy the uploaded id from the URL.")
-	append_to_output(format("		Song = \"%s\"","rbxassetid://FILL_IN_AUDIO_ASSETID_HERE"));
+	append_to_output(format("		Song = \"%s\",","rbxassetid://FILL_IN_AUDIO_ASSETID_HERE"));
 	append_to_output("--Your cover image assetid should be in the form of \"rbxassetid://...\". Upload images at \"https://www.roblox.com/develop?View=3\", and copy the uploaded id from the URL.")
-	append_to_output(format("		Cover = \"%s\"","rbxassetid://FILL_IN_IMAGE_ASSETID_HERE"));
+	append_to_output(format("		Cover = \"%s\",","rbxassetid://FILL_IN_IMAGE_ASSETID_HERE"));
 	append_to_output("	},");
 	
 	append_to_output("	Map = {");
