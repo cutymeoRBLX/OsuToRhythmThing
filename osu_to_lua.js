@@ -131,11 +131,10 @@ module.export("osu_to_lua", function(osu_file_contents) {
 		var itr = beatmap.hitObjects[i];
 		var type = itr.objectName;
 		var track = hitobj_x_to_track_number(itr.position[0]);
-		var beat = (itr.startTime / 1000) / (60 / beatmap.bpmMax);
 		var duration = itr.duration;
 		if (!isNaN(duration)) duration /= 1000;
 		else duration = 0;
-		append_to_output(format("			{Key=%d,Beat=%d,Length=%d},", track, beat, duration))
+		append_to_output(format("			{Key=%d,Time=%d,Length=%d},", track, itr.startTime / 1000, duration))
 		/*
 		if (type == "slider") {
 			append_to_output(format("hold(%d,%d,%d) ", itr.startTime * beat, track, itr.duration / 100))
