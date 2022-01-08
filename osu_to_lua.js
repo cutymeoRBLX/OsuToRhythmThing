@@ -109,7 +109,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output(format("		Mapper = '%s',","MAPPER_NAME_HERE"))
 	append_to_output("--Your map OD.")
 	append_to_output("--The audio time offset of your map. By default it's set to 0 second.");
-	append_to_output(format("		AudioOffset = %d", 0));
+	append_to_output(format("		AudioOffset = %d,", 0));
 	append_to_output(format("		OD = %d,",!isNaN(beatmap.OverallDifficulty) ? beatmap.OverallDifficulty : 1))
 	append_to_output("--Song BPM.")
 	append_to_output(format("		BPM = %d,",beatmap.bpmMax))
