@@ -99,8 +99,8 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output("-- Converted with cutymeo's OsuToRhythmThing converter.\n");
 	append_to_output("return {");
 	append_to_output("	Data = {");
-	append_to_output("--The name of your map.")
-	append_to_output(format("		Name = "%s",",beatmap.Title))
+	append_to_output("--The name of your map.");
+	append_to_output(format(`		Name = "%s",`,beatmap.Title));
 	append_to_output("--The difficulty number of your map.")
 	append_to_output(format("		Difficulty = %d,",1))
 	append_to_output("--The song's artist.")
