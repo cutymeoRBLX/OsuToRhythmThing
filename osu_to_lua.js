@@ -1,6 +1,8 @@
 var parser = module.require("osuparser");
 var format = module.require('format');
 
+const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+
 module.export("osu_to_lua", function(osu_file_contents) {
 	var rtv_lua = ""
 	var append_to_output = function(str, newline) {
@@ -113,14 +115,14 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output(format("		OD = %d,",!isNaN(beatmap.OverallDifficulty) ? beatmap.OverallDifficulty : 1))
 	append_to_output("--Song BPM.")
 	append_to_output(format("		BPM = %d,",beatmap.bpmMax))
-	append_to_output("--How HP will changes based on the accuracy.")
+	/*append_to_output("--How HP will changes based on the accuracy.")
 	append_to_output("		HP = { -- HP = 100");
 	append_to_output("			Heal = {");
 	append_to_output(format("				Max = %d,",5));
 	append_to_output(format("				Normal = %d",3));
 	append_to_output("			},");
 	append_to_output(format("			Damage = %d", 1));
-	append_to_output("	},");
+	append_to_output("	},");*/
 	append_to_output("--Your audio assetid should be in the form of \"rbxassetid://...\". Upload audios at \"https://www.roblox.com/develop?View=3\", and copy the uploaded id from the URL.")
 	append_to_output(format("		Song = \"%s\",","rbxassetid://FILL_IN_AUDIO_ASSETID_HERE"));
 	append_to_output("--Your cover image assetid should be in the form of \"rbxassetid://...\". Upload images at \"https://www.roblox.com/develop?View=3\", and copy the uploaded id from the URL.")
@@ -145,14 +147,36 @@ module.export("osu_to_lua", function(osu_file_contents) {
 		}
 		*/
 	}
-	/*
-	append_to_output("rtv.TimingPoints = {")
+	append_to_output("	},");
+	// Get the timing points.
+	var timingpointindex = 0
+	append_to_output("	TimingPoints = {");
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
 		var itr = beatmap.timingPoints[i];
-		append_to_output(format("\t[%d] = { Time = %d; BeatLength = %d; };",i+1, itr.offset, itr.beatLength))
+		var isSV = itr.inherited == 0 || itr.ms_per_beat < 0;
+		if (!isSV) 
+		{
+			timingpointindex += 1;
+			append_to_output(format("\t[%d] = { Offset = %d; BeatLength = %d; };",timingpointindex, itr.offset, itr.beatLength))
+		}
 	}
-	*/
-	append_to_output("	}");
+	
+	append_to_output("	},");
+	
+	// Get the SVs points.
+	var svsindex = 0
+	append_to_output("	SliderVelocities = {");
+	for (var i = 0; i < beatmap.timingPoints.length; i++) {
+		var itr = beatmap.timingPoints[i];
+		var isSV = itr.inherited == 0 || itr.ms_per_beat < 0;
+		if (isSV) 
+		{
+			svsindex += 1;
+			append_to_output(format("\t[%d] = { StartTime = %d; Multiplier = %d; };",timingpointindex, itr.offset,clamp((-100 / itr.ms_per_beat), 0.1, 10)))
+		}
+	}
+	
+	append_to_output("	},");
 	append_to_output("}");
 	//append_to_output("return rtv")
 
