@@ -99,14 +99,14 @@ function beatmapParser() {
     members = line.split(',');
 
     var timingPoint = {
-      offset:            parseInt(members[0]),
+      offset:            parseFloat(members[0]),
       beatLength:        parseFloat(members[1]),
       velocity:          1,
       timingSignature:   parseInt(members[2]),
       sampleSetId:       parseInt(members[3]),
       customSampleIndex: parseInt(members[4]),
       sampleVolume:      parseInt(members[5]),
-      timingChange:      (members[6] == 1),
+      inherited:      parseInt(members[6]),
       kiaiTimeActive:    (members[7] == 1)
     };
 
