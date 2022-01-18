@@ -149,8 +149,8 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	}
 	append_to_output("	},");
 	// Get the timing points.
-	var timingPoints = {};
-	var SVsPoints = {};
+	var timingPoints = [];
+	var SVsPoints = [];
 	
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
 		var itr = beatmap.timingPoints[i];
