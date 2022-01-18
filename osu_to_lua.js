@@ -149,34 +149,36 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	}
 	append_to_output("	},");
 	// Get the timing points.
-	var timingpointindex = 0
-	append_to_output("	TimingPoints = {");
+	var timingPoints = {};
+	var SVsPoints = {};
+	
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
 		var itr = beatmap.timingPoints[i];
 		var isSV = itr.inherited == 0 || itr.ms_per_beat < 0;
-		if (!isSV) 
-		{
-			timingpointindex += 1;
-			append_to_output(format("\t[%d] = { Offset = %d; BeatLength = %d; };",timingpointindex, itr.offset, itr.beatLength))
-		}
+		if (isSV)
+			SVsPoints.push(itr);
+		else
+			timingPoints.push(itr);
 	}
 	
-	append_to_output("	},");
-	
-	// Get the SVs points.
-	var svsindex = 0
-	append_to_output("	SliderVelocities = {");
-	for (var i = 0; i < beatmap.timingPoints.length; i++) {
-		var itr = beatmap.timingPoints[i];
-		var isSV = itr.inherited == 0 || itr.ms_per_beat < 0;
-		if (isSV) 
-		{
-			svsindex += 1;
-			append_to_output(format("\t[%d] = { StartTime = %d; Multiplier = %d; };",timingpointindex, itr.offset,clamp((-100 / itr.ms_per_beat), 0.1, 10)))
+	if (timingPoints.length > 0) {
+		append_to_output("	TimingPoints = {");
+		for (var i = 0; i < timingPoints.length; i++) {
+			var itr = timingPoints[i];
+			append_to_output(format("\t[%d] = { Offset = %d; BeatLength = %d; };",i+1, itr.offset, itr.beatLength))
 		}
+		append_to_output("	},");
 	}
 	
-	append_to_output("	},");
+	if (SVsPoints.length > 0) {
+		append_to_output("	SliderVelocities = {");
+		for (var i = 0; i < SVsPoints.length; i++) {
+			var itr = SVsPoints[i];
+			append_to_output(format("\t[%d] = { StartTime = %d; Multiplier = %d; };",i+1, itr.offset,clamp((-100 / itr.ms_per_beat), 0.1, 10)))
+		}
+		append_to_output("	},");
+	}
+	
 	append_to_output("}");
 	//append_to_output("return rtv")
 
