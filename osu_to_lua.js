@@ -165,7 +165,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
 		append_to_output("	TimingPoints = {");
 		for (var i = 0; i < timingPoints.length; i++) {
 			var itr = timingPoints[i];
-			append_to_output(format("\t[%d] = { Offset = %d; BeatLength = %d; };",i+1, itr.offset, itr.beatLength))
+			append_to_output(format("\t[%d] = { Offset = %d; BeatLength = %d; };",i+1, itr.offset/1000, itr.beatLength))
 		}
 		append_to_output("	},");
 	}
@@ -174,7 +174,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
 		append_to_output("	SliderVelocities = {");
 		for (var i = 0; i < SVsPoints.length; i++) {
 			var itr = SVsPoints[i];
-			append_to_output(format("\t[%d] = { StartTime = %d; Multiplier = %d; };",i+1, itr.offset,clamp((-100 / itr.beatLength), 0.1, 10)))
+			append_to_output(format("\t[%d] = { StartTime = %d; Multiplier = %d; };",i+1, itr.offset/1000,(-100 / itr.beatLength)))
 		}
 		append_to_output("	},");
 	}
