@@ -154,8 +154,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
 		var itr = beatmap.timingPoints[i];
-		var isSV = itr.inherited == 1 || itr.beatLength < 0;
-		if (isSV)
+		if (itr.inherited == 0 || itr.beatLength < 0)
 			SVsPoints.push(itr);
 		else
 			timingPoints.push(itr);
