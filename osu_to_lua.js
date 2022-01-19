@@ -154,7 +154,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
 		var itr = beatmap.timingPoints[i];
-		var isSV = itr.inherited == 0 || itr.beatLength < 0;
+		var isSV = itr.inherited == 1 || itr.beatLength < 0;
 		if (isSV)
 			SVsPoints.push(itr);
 		else
@@ -174,7 +174,7 @@ module.export("osu_to_lua", function(osu_file_contents) {
 		append_to_output("	SliderVelocities = {");
 		for (var i = 0; i < SVsPoints.length; i++) {
 			var itr = SVsPoints[i];
-			append_to_output(format("\t[%d] = { StartTime = %d; Multiplier = %d; };",i+1, itr.offset/1000, clamp((-100 / itr.beatLength), 0.1, 10)));
+			append_to_output(format("\t[%d] = { StartTime = %d; Multiplier = %d; };",i+1, itr.offset/1000, itr.velocity));
 		}
 		append_to_output("	},");
 	}
