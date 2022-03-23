@@ -102,13 +102,13 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output("return {");
 	append_to_output("	Data = {");
 	append_to_output("--The name of your map.");
-	append_to_output(format(`		Name = "%s",`,beatmap.Title));
+	append_to_output(format(`		Name = "%s",`,beatmap.Title + " [" + beatmap.Version + "]"));
 	append_to_output("--The difficulty number of your map.")
 	append_to_output(format("		Difficulty = %d,",1))
 	append_to_output("--The song's artist.")
 	append_to_output(format("		Artist = '%s',",beatmap.Artist))
 	append_to_output("--Your name.")
-	append_to_output(format("		Mapper = '%s',","MAPPER_NAME_HERE"))
+	append_to_output(format("		Mapper = '%s',",beatmap.Creator))
 	append_to_output("--The audio time offset of your map. By default it's set to 0 second.");
 	append_to_output(format("		AudioOffset = %d,", 0));
 	append_to_output("--Your map OD.")
