@@ -25,14 +25,24 @@ module.require = function(name) {
 <script src="osuparser.js"></script>
 <script src="format.js"></script>
 <script src="osu_to_lua.js"></script>
+<script src="osu_to_json.js"></script>
 
 <script src="jquery.js"></script>
+<div class="content" style="display: block;">
+	Bot: <input id="usebot" type="checkbox" placeholder="false"> - Only for official charters. (Defaults to false)<br/>
+</div>
 <script>
 $(function(){
   $("#submit").click(function(){
     $("#out").val("converting...")
-			var osu_file_str = $("#in").val()
-			$("#out").val(module.require("osu_to_lua")(osu_file_str))
+
+	var osu_file_str = $("#in").val()
+	var usebot = document.getElementById("usebot").checked;
+
+	if (usebot)
+		$("#out").val(module.require("osu_to_json")(osu_file_str))
+	else
+		$("#out").val(module.require("osu_to_lua")(osu_file_str))
   })
 })
 </script>
@@ -47,7 +57,7 @@ $(function(){
 <br/>
 <br/>
 <textarea id="out" style="width:1000px;height:200px" readonly>
-  output (paste this into a ModuleScript)
+  output
 </textarea>
 </body>
 </html>
